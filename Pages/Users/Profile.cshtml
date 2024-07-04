@@ -1,0 +1,50 @@
+﻿@page
+@model PRN_Project.Pages.Users.ProfileModel
+
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Pages/Shared/_LoginLayout.cshtml";
+}
+
+<h1>Profile</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="User.UserId" />
+            <div class="form-group">
+                <input asp-for="User.AccountId" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label asp-for="User.FirstName" class="control-label"></label>
+                <input asp-for="User.FirstName" class="form-control" readonly/>
+                <span asp-validation-for="User.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.LastName" class="control-label"></label>
+                <input asp-for="User.LastName" class="form-control" readonly/>
+                <span asp-validation-for="User.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.NickName" class="control-label"></label>
+                <input asp-for="User.NickName" class="form-control" />
+                <span asp-validation-for="User.NickName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="User.CreateDate" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

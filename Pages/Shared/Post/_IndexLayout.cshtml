@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PRN_Project</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PRN_Project.styles.css" asp-append-version="true" />
+</head>
+<body style="height: 100%; background-color: rgb(23, 21, 21)">
+    <header style="height: 56.8px;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow" style="position:fixed; width: 100%; background-color: rgb(43, 42, 42)">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index" style="color: white">PRN_Project</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <form action="/Posts" method="get" id="search-action-id">
+                    <div class="d-sm-inline-flex container row" style="width: 480px; height: 40px; background-color: white; padding: 5px 10px; border-radius: 20px">
+                        <div class="col-md-11">
+                            <input type="text" name="searchString" placeholder="Search something here" style="border: 0px; outline: 0px solid; height: 100%; font-size:revert-layer" />
+                        </div>
+                        
+                        <div onclick="document.getElementById('search-action-id').submit()" class="col-md-1 custom-btn" style="height: 100%;display: flex; margin: 0px; padding: 0px; justify-content: center; cursor: pointer">
+                            <img src="https://cdn3.iconfinder.com/data/icons/feather-5/24/search-512.png" alt="Alternate Text" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid" style="height: 100%">
+        @RenderBody()
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

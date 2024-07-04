@@ -1,0 +1,365 @@
+﻿@page
+@model PRN_Project.Pages.Posts.IndexModel
+
+@{
+	ViewData["Title"] = "Posts";
+	Layout = "~/Pages/Shared/Post/_IndexLayout.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-3 centre-component">
+		<div class="fit-width fixed component-2">
+			<a asp-page="/Users/Profile" asp-route-id="@Model.User.UserId" style="text-decoration: none">
+				<div class="container-fluid row component-2 button" style="height: 48px; margin: 10px; padding: 5px 0px; cursor: pointer; border-radius: 10px">
+
+					<div class="col-md-2 centre-component" style="height: 100%">
+						<img src="@Avatar.Defaults[(int) Model.User.AccountId % 2]" alt="Alternate Text" class="avatar-img" />
+					</div>
+
+					<div class="col-md-9 centre-component-2" style="height: 100%; margin-left: 10px">
+						<h6 style="margin-bottom: 0px; color: white">@Model.User.NickName</h6>
+					</div>
+				</div>
+			</a>
+			@foreach (var item in DefaultServices.Instance.Services)
+			{
+				<a asp-page="#" style="text-decoration: none">
+					<div class="container-fluid row component-2 button" style="height: 48px; margin: 10px; padding: 5px 0px; cursor: pointer; border-radius: 10px">
+						<div class="col-md-2 centre-component" style="height: 100%;">
+							<img src="@item.ImageUrl" alt="Alternate Text" class="avatar-img" />
+						</div>
+
+						<div class="col-md-9 centre-component-2" style="height: 100%; margin-left: 10px">
+							<h6 style="margin-bottom: 0px; color: white">@item.Name</h6>
+						</div>
+					</div>
+				</a>
+			}
+
+			<a asp-page="" asp-page-handler="Logout" style="text-decoration: none">
+				<div class="container-fluid row component-2 button" style="height: 48px; margin: 10px; padding: 5px 0px; cursor: pointer; border-radius: 10px">
+
+					<div class="col-md-2 centre-component" style="height: 100%">
+						<img src="https://cdn-icons-png.freepik.com/512/4421/4421772.png" alt="Alternate Text" class="avatar-img" />
+					</div>
+
+					<div class="col-md-9 centre-component-2" style="height: 100%; margin-left: 10px">
+						<h6 style="margin-bottom: 0px; color: white">Logout</h6>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-md-6 container component" style="min-height: 742.2px">
+		<div class="post-frame container" style="background-color: rgb(64, 62, 62); height: fit-content; padding: 8px 0px;">
+			<div class="post-identifer container-fluid row">
+				<div class="col-md-1 centre-component" style="height: 100%">
+					<img src="@Avatar.Defaults[(int) Model.User.AccountId % 2]" alt="Alternate Text" class="avatar-img" />
+				</div>
+
+				<div class="col-md-9 component " style="height: 100%">
+					<h6 style="margin-bottom: 0px; color: white">@Model.User.NickName</h6>
+				</div>
+			</div>
+
+			<form method="post" asp-page-handler="Create" id="create-form-id">
+				<div class="post-content container-fluid" style=" height: fit-content">
+					<input type="hidden" asp-for="CreatePostForm.Content" id="create-post-id" />
+					<p contenteditable="true" onclick="deleteContent('create-post-content-id', 'create-post-id')" oninput="saveToInput()" id="create-post-content-id" style="outline: 0px solid transparent">Your Post Here!</p>
+				</div>
+
+				<div class="centre-component" id="post-btn" style="padding: 5px 0px; margin: 5px 25px; border-top: 0.5px solid white">
+					<div class="container centre-component centre-component-2" style="height: 36px; width: 60%; cursor: pointer; border-radius: 10px; background-color: rgb(55, 126, 240)" onclick="submit()">
+						<h6 style="margin-bottom: 0px; color: white">Post</h6>
+					</div>
+				</div>
+			</form>
+
+		</div>
+		@foreach (var post in Model.Post)
+		{
+			<div class="post-frame container" style="background-color: rgb(64, 62, 62); height: fit-content; padding: 8px 0px;">
+				<div class="post-identifer container-fluid row">
+					<div class="col-md-1 centre-component" style="height: 100%">
+						<img src="@Avatar.Defaults[(int) post.User.AccountId % 2]" alt="Alternate Text" class="avatar-img" />
+					</div>
+
+					<div class="col-md-9 component " style="height: 100%">
+						<h6 style="margin-bottom: 0px; color: white">@post.User.NickName</h6>
+						<p style="font-weight: lighter; font-size: small; color: lightgray">@post.PostDate</p>
+					</div>
+				</div>
+
+				<div class="post-content container-fluid">
+					@foreach (var line in post.Content.Split("[br]"))
+					{
+						<p style="margin: 0px; padding: 0px;">@line</p>
+						<span style="display: block; margin-bottom: 1em"></span>
+					}
+				</div>
+
+				<div class="post-interact container-fluid centre-component" style="padding: 0px 20px">
+					<div class="row container-fluid interact-view border-top border-bottom">
+						<div class="col-md-10 container centre-component-2" style="height: 100%;">
+							<div style="display: inline; color: white; font-family: Roboto; font-size: small; margin-right: 5px"><a href="#">Like:</a></div>
+							<div style="display: inline; font-weight: lighter; font-size: small; color: lightgray; ">39,2K</div>
+						</div>
+
+						<div class="col-md-2 container centre-component-2" style="height: 100%;">
+							<div style="display: inline; color: white; font-family: Roboto; font-size: small; margin-right: 5px">View:</div>
+							<div style="display: inline; font-weight: lighter; font-size: small; color: lightgray;">70,4K</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="post-comment container-fluid scrollable" style="margin-top: 25px; margin: 12px 0px;">
+					@foreach (var comment in post.Comments)
+					{
+						<div class="container-fluid row" style="padding: 0px; margin: 0px; padding-top: 10px">
+							@if (comment.UserId == Model.User.UserId)
+							{
+								<form method="post" asp-page-handler="DeleteComment" id="delete-form-comment-id-@comment.CommentId">
+									<input type="hidden" name="commentId" value="@comment.CommentId" />
+									<div id="delete-bar-id-@comment.CommentId" class="overlay" style="background-color: rgb(77, 76, 74); margin: 35px 50px; width: 120px; height: 40px; border-radius: 10px; padding: 0px 10px; display: none">
+										<div onclick="deleteComment('@comment.CommentId')" class="container centre-component centre-component-2" style="height: 100%; width: 100%; cursor: pointer;">
+											<h6 style="margin-bottom: 0px; color: white">Delete</h6>
+										</div>
+									</div>
+								</form>
+							}
+							<div class="col-md-1 centre-component " style="height: 36px">
+								<img src="@Avatar.Defaults[(int) comment.User.AccountId % 2]" alt="Alternate Text" class="avatar-img" />
+							</div>
+							<div class="col-md-9 component" style="overflow-wrap: anywhere" onclick="displayDeleteBar('@comment.CommentId')">
+								<div style="width: fit-content; background-color: rgb(115, 114, 111); border-radius: 8px; padding: 0px 10px">
+									<a href="#" style="text-decoration: none; color: white; font-size: small; font-weight: 500">@comment.User.NickName</a>
+
+									@foreach (var line in comment.Content.Split("[br]"))
+									{
+										<p style="margin: 0px; padding: 0px; color: white; font-size: 11px; font-weight: 300">@line</p>
+										<span style="display: block; margin-bottom: 1em"></span>
+									}
+									<div style="padding-bottom: 5px"></div>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+				<div class="border-top" style="height: 10px; width: 95%; margin: 0px 2.5%;">
+				</div>
+				<form method="post" asp-page-handler="Comment" id="create-form-comment-id-@post.PostId">
+					<input type="hidden" name="commentContent" id="create-comment-id-@post.PostId" />
+					<input type="hidden" name="postId" value="@post.PostId" />
+					<div class="container-fluid row create-comment centre-component-2" style="height: fit-content; padding: 0px 10px; min-height: 40px">
+						<div class="col-md-1 centre-component" style="height: 40px;">
+							<img src="@Avatar.Defaults[(int) Model.User.AccountId % 2]" alt="Alternate Text" class="avatar-img" />
+						</div>
+
+						<div class="col-md-9 component" style="overflow-wrap: anywhere">
+							<div class="centre-component-2" style="width: fit-content; background-color: rgb(115, 114, 111); border-radius: 20px; padding: 10px; min-height: 40px; width: 100%">
+								<p contenteditable="true" id="create-comment-content-id-@post.PostId" onclick="deleteContent('create-comment-content-id-@post.PostId', 'create-comment-id-@post.PostId')" oninput="saveToInputComment('@post.PostId')" style="outline: 0px solid transparent; margin: 0px; padding: 0px; color: white; font-size: revert-layer; font-weight: 300">Comment something...</p>
+							</div>
+						</div>
+
+						<div class="centre-component col-md-1 centre-component" onclick="submitCreateContent('@post.PostId')" id="comment-btn" style="height: 25px; margin-left: 10px; cursor: pointer">
+							<img src="https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/send-icon.png" alt="Alternate Text" />
+						</div>
+					</div>
+
+				</form>
+			</div>
+		}
+	</div>
+
+	<div class="col-md-3 centre-component">
+		<div class="fit-width fixed scrollable contact">
+		</div>
+	</div>
+</div>
+
+<style>
+	.overlay {
+		position: absolute;
+		z-index: 4;
+	}
+
+	.centre-component {
+		display: flex;
+		margin: 0px;
+		padding: 0px;
+		justify-content: center;
+	}
+
+	.centre-component-2 {
+		display: flex;
+		margin: 0px;
+		padding: 0px;
+		align-items: center;
+	}
+
+	.button:hover {
+		background-color: rgb(122, 119, 119);
+	}
+
+	.component {
+		margin: 0px;
+		padding: 0px;
+		margin-left: 10px;
+	}
+
+	.component-2 {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.fit-width {
+		width: 368.2px;
+	}
+
+	.scrollable {
+		overflow: scroll;
+		overflow-x: hidden;
+	}
+
+	.fixed {
+		position: fixed;
+		height: 685.6px;
+	}
+
+	.post-frame {
+		width: 90%;
+		border-radius: 15px;
+		margin-top: 25px;
+		margin-bottom: 50px;
+	}
+
+	.post-identifer {
+		height: 48px;
+		margin: 12px 0px;
+	}
+
+
+	.post-content {
+		margin: 12px 0px;
+		color: white;
+		font-weight: 200;
+		font-family: Roboto;
+		font-size: 12px;
+		white-space: normal;
+	}
+
+	.post-comment {
+		height: 240px;
+	}
+
+	.interact-view {
+		display: flex;
+		height: 42px;
+		align-content: center;
+	}
+
+	.avatar-img {
+		border-radius: 50%;
+	}
+
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	::-webkit-scrollbar-track {
+		border-radius: 10px;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+	}
+
+	body::-webkit-scrollbar-track {
+		background: rgb(24, 26, 25);
+	}
+
+	body::-webkit-scrollbar-thumb {
+		background: #888;
+	}
+
+		body::-webkit-scrollbar-thumb:hover {
+			background: #555;
+		}
+
+	.post-comment::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.post-comment::-webkit-scrollbar-thumb {
+		background: #888;
+	}
+
+		.post-comment::-webkit-scrollbar-thumb:hover {
+			background: #555;
+		}
+
+	.contact::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	.contact::-webkit-scrollbar-thumb {
+		background: #888;
+	}
+
+		.contact::-webkit-scrollbar-thumb:hover {
+			background: #555;
+		}
+
+</style>
+
+<script>
+	var load = () => {
+		if (document.getElementById('create-post-id').value === "" || document.getElementById('create-post-id').value == null) {
+			document.getElementById('post-btn').style.display = "none";
+		} else {
+			document.getElementById('post-btn').style.display = "flex";
+		}
+	}
+
+	function saveToInputComment(postid) {
+		document.getElementById('create-comment-id-' + postid).value = document.getElementById('create-comment-content-id-' + postid).innerHTML;
+		load();
+	}
+
+	load();
+	function saveToInput() {
+		document.getElementById('create-post-id').value = document.getElementById('create-post-content-id').innerHTML;
+		console.log(document.getElementById('create-post-id').value);
+		load();
+	}
+
+	function deleteContent(contentId, checkId) {
+		if (document.getElementById(checkId).value === "") {
+			document.getElementById(contentId).innerHTML = '';
+		}
+	}
+
+	function submit() {
+		document.getElementById('create-form-id').submit();
+		console.log('submitted')
+	}
+
+	function submitCreateContent(postid) {
+		console.log('create-form-comment-id-' + postid)
+		document.getElementById('create-form-comment-id-' + postid).submit();
+
+	}
+
+	function displayDeleteBar(commentId) {
+		
+		var display = document.getElementById('delete-bar-id-' + commentId).style.display;
+		document.getElementById('delete-bar-id-' + commentId).style.display = (display == "none" ? "block" : "none");
+	}
+
+	function deleteComment(commentId) {
+
+		document.getElementById('delete-form-comment-id-' + commentId).submit();
+
+	}
+</script>
